@@ -1,0 +1,22 @@
+NAME
+    This is Gauche module memolru (Memoizing macro of a
+    least-recentry-used cache algorithm).
+
+VERSION
+    0.0.1
+
+INSTALLATION
+    1. memolru.scm add copy to *load-path* directory.
+
+SYNOPSIS
+    ;(define-memolru limit (proc v ...) body1 body2 ...)
+    (use memolru)
+    (define-memolru 10 (fib n)
+        (if (< n 2)
+            n
+            (+ (fib (- n 1)) (fib (- n 2)))))
+    (time (fib 30))
+    (time (fib 30))
+
+AUTHOR
+    Takuya Mannami <mtakuya@users.sourceforge.jp>
