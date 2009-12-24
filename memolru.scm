@@ -38,9 +38,6 @@
 
 (select-module memolru)
 
-(define (make-set) '())
-(define (limit? s n) (= (length s) n))
-
 (define-syntax in!
   (syntax-rules () ((_ s o) (set! s (append s (list o))))))
 
@@ -53,12 +50,12 @@
 (define-syntax define-memolru
   (syntax-rules () ((_ limit (proc v ...) b1 b2 ...)
      (define proc 
-       (let ((proc (lambda (v ...) b1 b2 ...)) (cache (make-set)))
+       (let ((proc (lambda (v ...) b1 b2 ...)) (cache '()))
          (lambda (v ...)
            (let* ((key (list v ...)) (obj (assoc key cache)))
              (if obj
                  (begin (l2r! cache obj) (cdr obj))
                  (let1 val (call-with-values (lambda () (values v ...)) proc)
-                       (when (limit? cache limit) (out! cache))
+                       (when (= (length cache) limit) (out! cache))
                        (in! cache (cons key val)) val)))))))))
 (provide "memolru")
