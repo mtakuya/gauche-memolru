@@ -56,6 +56,6 @@
              (if obj
                  (begin (l2r! cache obj) (cdr obj))
                  (let1 val (call-with-values (lambda () (values v ...)) proc)
-                       (when (= (length cache) limit) (out! cache))
+                       (if (= (length cache) limit) (out! cache))
                        (in! cache (cons key val)) val)))))))))
 (provide "memolru")
