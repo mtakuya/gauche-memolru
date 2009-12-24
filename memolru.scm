@@ -56,7 +56,7 @@
        (let ((proc (lambda (v ...) b1 b2 ...)) (cache (make-set)))
          (lambda (v ...)
            (let* ((key (list v ...)) (obj (assoc key cache)))
-             (if (not (equal? obj #f))
+             (if obj
                  (begin (l2r! cache obj) (cdr obj))
                  (let1 val (call-with-values (lambda () (values v ...)) proc)
                        (when (limit? cache limit) (out! cache))
